@@ -53,11 +53,6 @@
 			path = "reddit-home-iosTests";
 			sourceTree = "<group>";
 		};
-		8E46FCF82ECA8AD70005EEAE /* reddit-home-iosUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "reddit-home-iosUITests";
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,7 +85,6 @@
 			children = (
 				8E46FCD72ECA8AD60005EEAE /* reddit-home-ios */,
 				8E46FCEE2ECA8AD70005EEAE /* reddit-home-iosTests */,
-				8E46FCF82ECA8AD70005EEAE /* reddit-home-iosUITests */,
 				8E46FCD62ECA8AD60005EEAE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -165,9 +159,6 @@
 			);
 			dependencies = (
 				8E46FCF72ECA8AD70005EEAE /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				8E46FCF82ECA8AD70005EEAE /* reddit-home-iosUITests */,
 			);
 			name = "reddit-home-iosUITests";
 			packageProductDependencies = (

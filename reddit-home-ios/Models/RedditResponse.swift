@@ -22,8 +22,8 @@ struct RedditChild: Codable {
 struct RedditPostData: Codable {
     let id: String
     let title: String
-    let score: Int
-    let num_comments: Int
+    let score: Int?
+    let num_comments: Int?
     let selftext: String?
     let thumbnail: String?
     let preview: RedditPreview?

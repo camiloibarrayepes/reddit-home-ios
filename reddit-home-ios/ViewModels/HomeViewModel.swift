@@ -47,3 +47,12 @@ class HomeViewModel {
         }
     }
 }
+
+#if DEBUG
+extension HomeViewModel {
+    func setStateForTests(_ state: State) {
+        self.state = state
+        self.onStateChange?(state)
+    }
+}
+#endif
