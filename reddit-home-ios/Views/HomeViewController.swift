@@ -13,23 +13,8 @@ class HomeViewController: UIViewController {
     private let tableView = UITableView(frame: .zero, style: .plain)
     private let refreshControl = UIRefreshControl()
 
-    private let loadingLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Loading..."
-        label.textAlignment = .center
-        label.textColor = .secondaryLabel
-        label.isHidden = true
-        return label
-    }()
-
-    private let errorLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.textColor = .systemRed
-        label.numberOfLines = 0
-        label.isHidden = true
-        return label
-    }()
+    private let loadingView = LoadingView()
+    private let errorView = ErrorView()
 
     let viewModel = HomeViewModel()
 
@@ -59,14 +44,14 @@ class HomeViewController: UIViewController {
         tableView.isHidden = true
 
         view.addSubview(tableView)
-        view.addSubview(loadingLabel)
-        view.addSubview(errorLabel)
+        view.addSubview(loadingView)
+        view.addSubview(errorView)
     }
 
     private func setupLayout() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        loadingLabel.translatesAutoresizingMaskIntoConstraints = false
-        errorLabel.translatesAutoresizingMaskIntoConstraints = false
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        errorView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -74,13 +59,13 @@ class HomeViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
-            loadingLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            loadingLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            loadingView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
 
-            errorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            errorLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            errorLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            errorLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            errorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            errorView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            errorView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            errorView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
     }
 
@@ -95,20 +80,20 @@ class HomeViewController: UIViewController {
 
             case .loading:
                 self.tableView.isHidden = true
-                self.loadingLabel.isHidden = false
-                self.errorLabel.isHidden = true
+                self.loadingView.isHidden = false
+                self.errorView.isHidden = true
 
             case .loaded:
                 self.tableView.isHidden = false
-                self.loadingLabel.isHidden = true
-                self.errorLabel.isHidden = true
+                self.loadingView.isHidden = true
+                self.errorView.isHidden = true
                 self.refreshControl.endRefreshing()
 
             case .error(let msg):
                 self.tableView.isHidden = true
-                self.loadingLabel.isHidden = true
-                self.errorLabel.isHidden = false
-                self.errorLabel.text = msg
+                self.loadingView.isHidden = true
+                self.errorView.isHidden = false
+                self.errorView.setErrorMessage(msg)
                 self.refreshControl.endRefreshing()
             }
         }
