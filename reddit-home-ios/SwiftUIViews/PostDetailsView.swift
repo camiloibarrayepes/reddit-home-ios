@@ -15,7 +15,7 @@ struct PostDetailsView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
 
-                // Imagen (si existe)
+                // Image (if exists)
                 if let url = post.imageURL {
                     AsyncImage(url: url) { phase in
                         switch phase {
@@ -44,13 +44,13 @@ struct PostDetailsView: View {
                     }
                 }
 
-                // Título
+                // Title
                 Text(post.title)
                     .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundColor(.primary)
 
-                // Upvotes & comentarios
+                // Upvotes & comments
                 HStack(spacing: 16) {
                     Label("\(post.upvotes)", systemImage: "arrow.up.circle.fill")
                         .foregroundColor(.orange)
@@ -60,7 +60,7 @@ struct PostDetailsView: View {
                 }
                 .font(.subheadline)
 
-                // Cuerpo del post
+                // post body
                 if !post.body.isEmpty {
                     Text(post.body)
                         .font(.body)
@@ -88,7 +88,9 @@ struct PostDetailsView_Previews: PreviewProvider {
                 upvotes: 1200,
                 comments: 340,
                 body: "Este es un ejemplo de cuerpo de texto para un post",
-                imageURL: URL(string: "https://picsum.photos/500")
+                imageURL: URL(string: "https://picsum.photos/500"),
+                imageWidth: 500,
+                imageHeight: 500
             )
         )
     }

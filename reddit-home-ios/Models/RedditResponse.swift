@@ -39,4 +39,6 @@ struct RedditImage: Codable {
 
 struct RedditImageSource: Codable {
     let url: String
+    let width: Int
+    let height: Int
 }

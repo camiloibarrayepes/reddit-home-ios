@@ -37,6 +37,9 @@ class HomeViewController: UIViewController {
         tableView.delegate = self
 
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: "PostCell")
+        
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 300
 
         tableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(onPullToRefresh), for: .valueChanged)

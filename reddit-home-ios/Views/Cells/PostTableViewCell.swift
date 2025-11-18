@@ -122,12 +122,24 @@ final class PostTableViewCell: UITableViewCell {
         }
 
         postImageView.isHidden = false
-        imageHeightConstraint?.constant = 180
+        postImageView.contentMode = .scaleAspectFit
+        postImageView.clipsToBounds = false
 
-        // Get with ImageLoader and save UUID
+        // Calculate image height based on the aspect ratio
+        if let width = post.imageWidth, let height = post.imageHeight, width > 0 {
+            let aspectRatio = CGFloat(height) / CGFloat(width)
+            let cellWidth = UIScreen.main.bounds.width - 24
+            imageHeightConstraint?.constant = cellWidth * aspectRatio
+        } else {
+            // fallback if there is no width/height
+            imageHeightConstraint?.constant = 180
+        }
+
+        // load the image
         loadUUID = ImageLoader.shared.load(url: url) { [weak self] image in
             guard let self = self else { return }
             self.postImageView.image = image
         }
     }
+
 }

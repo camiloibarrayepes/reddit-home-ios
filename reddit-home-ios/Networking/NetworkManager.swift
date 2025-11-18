@@ -42,7 +42,21 @@ final class NetworkManager {
                 
                 let posts = decoded.data.children.compactMap { child -> PostModel? in
                     let p = child.data
-                    let imageURL = self.extractImageURL(from: p)
+                    
+                    // Get the image and size if exists
+                    var imageURL: URL? = nil
+                    var imageWidth: Int? = nil
+                    var imageHeight: Int? = nil
+                    
+                    if let preview = p.preview,
+                       let firstImage = preview.images.first,
+                       let url = URLHelper.sanitize(firstImage.source.url) {
+                        imageURL = url
+                        imageWidth = firstImage.source.width
+                        imageHeight = firstImage.source.height
+                    } else if let thumb = p.thumbnail, thumb.hasPrefix("http") {
+                        imageURL = URLHelper.sanitize(thumb)
+                    }
                     
                     return PostModel(
                         id: p.id,
@@ -50,7 +64,9 @@ final class NetworkManager {
                         upvotes: p.score ?? .zero,
                         comments: p.num_comments ?? .zero,
                         body: p.selftext ?? "",
-                        imageURL: imageURL
+                        imageURL: imageURL,
+                        imageWidth: imageWidth,
+                        imageHeight: imageHeight
                     )
                 }
                 
@@ -69,20 +85,15 @@ final class NetworkManager {
         
         if let preview = data.preview,
            let rawURL = preview.images.first?.source.url {
-            return sanitizeURL(rawURL)
+            return URLHelper.sanitize(rawURL)
         }
         
         if let thumb = data.thumbnail,
            thumb.hasPrefix("http") {
-            return sanitizeURL(thumb)
+            return URLHelper.sanitize(thumb)
         }
         
         return nil
-    }
-
-    private func sanitizeURL(_ urlString: String) -> URL? {
-        let cleaned = urlString.replacingOccurrences(of: "&amp;", with: "&")
-        return URL(string: cleaned)
     }
 
 }
